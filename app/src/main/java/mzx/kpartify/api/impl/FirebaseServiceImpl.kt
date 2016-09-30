@@ -16,6 +16,6 @@ class FirebaseServiceImpl @Inject constructor(private val application: KPartifyA
     }
 
     override fun getDatabaseReference(): DatabaseReference {
-        return FirebaseDatabase.getInstance().reference
+        return FirebaseDatabase.getInstance().reference.child("bands")
     }
 }

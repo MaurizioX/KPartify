@@ -8,35 +8,28 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.MutableData
-import com.google.firebase.database.Transaction
-import com.google.firebase.database.Transaction.Handler
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import mzx.kpartify.api.FirebaseService
-import javax.inject.Inject
+import mzx.kpartify.view.BandsFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
-    @Inject
-    lateinit var firebaseService: FirebaseService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         KPartifyApp.newsComponent.inject(this)
         setContentView(R.layout.activity_main)
+
         setSupportActionBar(toolbar)
-        fab.apply{
-            setOnClickListener {  view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show() }
+        fab.apply {
+            setOnClickListener { view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show() }
         }
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
+
         nav_view.setNavigationItemSelectedListener(this)
-        firebaseService.getDatabaseReference()
+        fragmentManager.beginTransaction().replace(R.id.main_content, BandsFragment()).commit()
     }
 
     override fun onBackPressed() {
